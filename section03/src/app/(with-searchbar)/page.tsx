@@ -1,17 +1,22 @@
-import styles from "./page.module.css";
-import ClientComponent from "@/components/client-component";
-import ServerComponent from "@/components/server-component";
+import BookItem from "@/components/book-item";
+import style from "./page.module.css";
+import books from "@/mock/books.json";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      인덱스페이지
-        <ClientComponent>
-            <ServerComponent/>
-        </ClientComponent>
+    <div className={style.container}>
+      <section>
+        <h3>지금 추천하는 도서</h3>
+        {books.map((book) => (
+          <BookItem key={book.id} {...book} />
+        ))}
+      </section>
+      <section>
+        <h3>등록된 모든 도서</h3>
+        {books.map((book) => (
+          <BookItem key={book.id} {...book} />
+        ))}
+      </section>
     </div>
   );
 }
-
-// 상호작용(with JS)이 필요하면: 클라이언트 컴포넌트
-// 필요 없으면: 서버 컴포넌트
