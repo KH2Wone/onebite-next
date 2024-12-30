@@ -2,13 +2,16 @@
 
 import {revalidatePath, revalidateTag} from "next/cache";
 
-export async function createReviewAction(formData: FormData) {
+export async function createReviewAction(_: any, formData: FormData) {
     const bookId = formData.get("bookId")?.toString();
     const content = formData.get('content')?.toString();
     const author = formData.get('author')?.toString();
 
     if (!bookId || !content || !author) {
-        return;
+        return {
+            status: false,
+            error: "리뷰 내용과 작성자를 입력해주세요"
+        }
     }
 
     try {
@@ -16,6 +19,10 @@ export async function createReviewAction(formData: FormData) {
             method: 'POST',
             body: JSON.stringify({bookId, content, author}),
         })
+
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
 
         // // 특정 주소에 해당하는 페이지만 재검증 (재생성)
         // revalidatePath(`/book/${bookId}`);
@@ -31,9 +38,15 @@ export async function createReviewAction(formData: FormData) {
 
         // 태그기준 데이터 캐시 재검증 - 첫번째 방법보다 효율적, 태그 달린 것만 재생성하기 때문
         revalidateTag(`review-${bookId}`);
-
+        return {
+            status: true,
+            error: ""
+        }
     } catch (e) {
         console.error(e);
-        return;
+        return {
+            status: false,
+            error: `리뷰 저장에 실패했습니다 : ${e}`
+        }
     }
 }
