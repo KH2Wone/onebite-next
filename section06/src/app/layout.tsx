@@ -1,7 +1,7 @@
 import "./globals.css";
 import Link from "next/link";
 import style from "./layout.module.css";
-import React from "react";
+import React, {ReactNode} from "react";
 import {BookData} from "@/types";
 
 async function Footer() {
@@ -20,9 +20,10 @@ async function Footer() {
 }
 
 export default function RootLayout({
-                                       children,
+                                       children, modal
                                    }: Readonly<{
     children: React.ReactNode;
+    modal: ReactNode;
 }>) {
     return (
         <html lang="ko" suppressHydrationWarning>
@@ -34,6 +35,8 @@ export default function RootLayout({
             <main>{children}</main>
             <Footer/>
         </div>
+        {modal}
+        <div id="modal-root"></div>
         </body>
         </html>
     );
