@@ -4,6 +4,7 @@ import {createReviewAction} from "@/actions/create-review.action";
 import {ReviewData} from "@/types";
 import ReviewItem from "@/components/review-item";
 import ReviewEditor from "@/components/review-editor";
+import Image from "next/image";
 
 // dynamicParams false일 경우:
 // generateStaticParams에서 return해주는 값 외에는 다 파라미터가 존재하지 않아야 하는구나 (dynamic하지 않는구나)로 해석해서 외에는 다 404페이지로 보내준다
@@ -26,7 +27,7 @@ async function BookDetail({bookId}: { bookId: string }) {
                 className={style.cover_img_container}
                 style={{backgroundImage: `url('${coverImgUrl}')`}}
             >
-                <img src={coverImgUrl}/>
+                <Image src={coverImgUrl} width={240} height={300} alt={`도서 ${title}의 표지 이미지`}/>
             </div>
             <div className={style.title}>{title}</div>
             <div className={style.subTitle}>{subTitle}</div>
